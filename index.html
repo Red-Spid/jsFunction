@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,7 +8,99 @@
     <title>Document</title>
     <script src="js/function.js"></script>
 </head>
+
 <body>
+    <form id="student-info" action="/student" method="post">
+        <p class="error-tip" id="error-tip"></p>
+        <label>姓名:
+            <input id="student-name" type="input" name="name" />
+        </label>
+        <label>手机号:
+            <input id="student-mobile" type="input" name="mobile" />
+        </label>
+        <label>学校:
+            <input id="student-school" type="input" name="school" />
+        </label>
+        <button type="submit" id="student-submit">提交</button>
+    </form>
+    <script>
     
+        var studentName = document.getElementById("student-name");
+        var errorTip = document.getElementById("error-tip");
+        var studentMobile = document.getElementById("student-mobile");
+        var studentSchool = document.getElementById("student-school");
+        var studentSubmit = document.getElementById("student-submit");
+        var studentInfo = document.getElementById("student-info");
+        var obj = {
+            name:{
+                is:false,
+                val:""
+            },
+            mobile:{
+                is:false,
+                val:""
+            },
+            school:{
+                is:false,
+                val:""
+            }
+        }
+
+        var errTips = [
+            "姓名必填",
+            "手机号错误",
+            "学校错误"
+        ]
+
+        studentSubmit.addEventListener('click', ( e )=>{
+            studentInfo.setAttribute("action","");
+            studentInfo.setAttribute("method","");
+            e.preventDefault();
+
+            // console.log( "111" );
+            Object.keys(obj).forEach((value, index, array) => {
+                console.log( value,index,array );
+
+                if( !obj[index].is ){
+                    errorTip.value = errTips[index];
+                    e.preventDefault();
+                }
+            })
+        }, false)
+
+        studentName.addEventListener('blur', ( ind )=>{
+            if( studentSchool.value.length >= 4 ){
+                obj.school.is = true;
+
+            }else{
+                obj.school.is = false;
+            }
+
+        }, false)
+
+        studentName.addEventListener('blur', ( ind )=>{
+            if( studentName.value.length >= 2 ){
+                obj.name.is = true;
+
+            }else{
+                obj.name.is = false;
+            }
+
+        }, false)
+
+        studentMobile.addEventListener('blur', ( ind )=>{
+
+            var reg = /^[1][3,4,5,7,8,9][0-9]{9}$/;
+            if( reg.test(studentMobile.value) ){
+                obj.mobile.is = true;
+
+            }else{
+                obj.mobile.is = false;
+            }
+
+        }, false)
+
+    </script>
 </body>
+
 </html>
